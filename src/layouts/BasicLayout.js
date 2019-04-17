@@ -8,12 +8,11 @@ import SiderMenu from '@/components/SiderMenu'
 import pathToRegexp from 'path-to-regexp'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import logo from '@/common/imgs/logo_admin.png'
+import Configure from '@/config/configure'
 import Context from './MenuContext'
 import Header from './Header'
 import cx from 'classname'
 import memoizeOne from 'memoize-one'
-import Configure from '@/config/configure'
 
 function formatter(data, parentAuthority, parentName) {
   return data
@@ -211,7 +210,7 @@ class BasicLayout extends React.Component {
       <Layout>
         {isTop && !isMobile ? null : (
           <SiderMenu
-            logo={logo}
+            logo={Configure.logo}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
@@ -229,7 +228,7 @@ class BasicLayout extends React.Component {
           <Header
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
-            logo={logo}
+            logo={Configure.logo}
             isMobile={isMobile}
             isTop={isTop}
             theme={navTheme}
