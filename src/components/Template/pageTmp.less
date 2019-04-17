@@ -1,0 +1,96 @@
+
+.tableTmp_wrap{
+  position: relative;
+  padding-bottom: 44px;
+  background: #FFF;
+  &.nomargin{
+    margin: 0;
+  }
+  .tableTmp_content{
+    padding: 0 32px;
+  }
+  .tableTmp_title{
+    position: relative;
+    font-size: 16px;
+    color: #333;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 32px;
+    border-bottom: 1px solid #E5E5E5;
+    &.hideTitle{
+      position: absolute;
+      width: 300px;
+      border: none;
+      right: 0;
+      top: -60px;
+      z-index: 5;
+    }
+    .tableTmp_title_right{
+      position: absolute;
+      right: 24px;
+      top: 0;
+      & > button {
+        &:not(:first-child) {
+            margin-left: 10px;
+        }
+      }
+    }
+  }
+  .btngroup{
+    position: relative;
+    display: inline-block;
+    top: 3px;
+    & > button {
+      margin-right: 20px;
+    }
+  }
+  :global {
+    .ant-form-item.filter {
+      .ant-form-item-label{
+        width: 92px;
+        text-align: left;
+      }
+      
+    }
+  }
+}
+.tableListForm {
+  :global {
+    .ant-form-item {
+      margin-bottom: 24px;
+      margin-right: 0;
+      display: flex;
+      height: 32px;
+      > .ant-form-item-label {
+        width: auto;
+        line-height: 32px;
+        padding-right: 5px;
+      }
+      .ant-form-item-control {
+        line-height: 32px;
+      }
+    }
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+  .submitButtons {
+    display: block;
+    white-space: nowrap;
+    margin-bottom: 24px;
+  }
+}
+
+:global {
+  // .ant-table-thead > tr , .ant-table-tbody > tr {
+  //   display: table;
+  //   width: 100%;
+  //   table-layout: fixed;
+  // }
+  .ant-table-thead > tr > th{
+    text-align: center !important;
+  }
+  .ant-table-tbody > tr > td{
+    text-align: center !important;
+  }
+}

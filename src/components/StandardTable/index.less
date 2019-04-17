@@ -1,0 +1,21 @@
+.standardTable{
+  position: relative;
+  .total{
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    font-size: 14px;
+  }
+  :global {
+    .commontb.ant-table-wrapper {
+      .ant-table-scroll {
+        overflow-x: auto;
+        overflow-y: auto;
+      }
+      .ant-table-body{
+        overflow-x: auto!important;
+        overflow-y: scroll!important;
+      }
+    }
+  }
+}

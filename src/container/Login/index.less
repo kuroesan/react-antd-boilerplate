@@ -1,0 +1,29 @@
+@import '~antd/lib/style/themes/default.less';
+
+.login {
+  width: 368px;
+  margin: 0 auto;
+  .loginTitleWrap {
+    display: flex;
+    justify-content: center;
+    .loginTitle {
+      display: inline-block;
+      color: #333333;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 48px;
+      padding: 12px 16px;
+      color: @primary-color;
+      border-bottom: 2px solid @primary-color;
+      margin-right: 32px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  :global {
+    .ant-input-lg {
+      font-size: 14px;
+    }
+  }
+}
