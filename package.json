@@ -2,6 +2,21 @@
   "name": "react-antd-boilerplate",
   "version": "0.1.0",
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --no-ignore --fix",
+      "git add --force"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add --force"
+    ]
+  },
   "dependencies": {
     "antd": "^3.13.4",
     "babel-polyfill": "^6.26.0",
@@ -58,6 +73,7 @@
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.1",
     "html-webpack-plugin": "4.0.0-alpha.2",
+    "husky": "^2.3.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.2",
@@ -65,6 +81,7 @@
     "jest-watch-typeahead": "^0.2.1",
     "less": "^2.7.3",
     "less-loader": "^4.1.0",
+    "lint-staged": "^8.1.7",
     "mini-css-extract-plugin": "0.5.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.2.1",
