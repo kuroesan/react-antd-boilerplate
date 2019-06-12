@@ -23,12 +23,12 @@ const routes = [
 			{
 				path: '/projectManage/addProject',
 				name: '新建项目',
-				component: Home
+				component: DetailTemplate
 			},
 			{
 				path: '/projectManage/projectList',
 				name: '项目列表',
-				component: Home
+				component: DetailTemplate
 			}
 		]
 	},

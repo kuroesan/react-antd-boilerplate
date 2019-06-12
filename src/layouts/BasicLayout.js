@@ -1,12 +1,12 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Tag } from 'antd'
 import isEqual from 'lodash/isEqual'
 import DocumentTitle from 'react-document-title'
 import { ContainerQuery } from 'react-container-query'
 import { enquireScreen, unenquireScreen } from 'enquire-js'
 import SiderMenu from '@/components/SiderMenu'
 import pathToRegexp from 'path-to-regexp'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import Configure from '@/config/configure'
 import Context from './MenuContext'
@@ -76,6 +76,7 @@ const { Content } = Layout
 
 @withRouter
 @inject('Setting')
+@inject('Gobal')
 @observer
 class BasicLayout extends React.Component {
 
@@ -189,8 +190,16 @@ class BasicLayout extends React.Component {
   handleMenuCollapse = () => {
     this.props.Setting.changeLayoutCollapsed(!this.props.Setting.collapsed)
   }
+  removeTab(tabPage) {
+    const { removeTabsPage } = this.props.Gobal
+    removeTabsPage(tabPage).then((res) => {
+      let lastPath = res[res.length - 1].path
+      this.props.history.push(lastPath)
+    })
 
+  }
   render() {
+    const { tabsPage } = this.props.Gobal
     const {
       children,
       location: { pathname }
@@ -238,6 +247,15 @@ class BasicLayout extends React.Component {
             collapsed={collapsed}
             {...this.props}
           />
+          <div>
+            {
+              tabsPage.map((tabPage) => (
+                <Tag key={tabPage.path} closable={tabPage.path !== '/'} onClose={() => this.removeTab(tabPage)}>
+                  <Link to={tabPage.path}>{tabPage.title}</Link>
+                </Tag>
+              ))
+            }
+          </div>
           <Content style={this.getContentStyle()}>
             {children}
           </Content>

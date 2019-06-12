@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Switch, Redirect, withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
+import _ from 'lodash'
 import RouteWithSubRoutes from '@/utils/routeWithSubRoutes'
 import routes from '@/config/routes.config'
 import BasicLayout from '@/layouts/BasicLayout'
 
 let resultRoutes = []
+
 @withRouter
 @inject('Gobal')
 @observer
@@ -13,7 +15,7 @@ class MainApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newRoutes: []
+      newRoutes: [],
     }
   }
   componentWillMount() {
@@ -47,14 +49,32 @@ class MainApp extends Component {
       return route
     })
   }
-
+  componentWillReceiveProps(nextProps) {
+    // 监听路由发生改变的时候
+    if (!_.isEqual(this.props.location.pathname, nextProps.location.pathname)) {
+      this.addTab(nextProps.location.pathname)
+    }
+  }
+  addTab(path) {
+    const { addTabsPage } = this.props.Gobal
+    let currentRoute = {}
+    this.state.newRoutes.map((route) => {
+      if (_.isEqual(route.path, path)) {
+        currentRoute.title = route.title
+        currentRoute.path = route.path
+      }
+      return route
+    })
+    addTabsPage(currentRoute)
+  }
   render() {
+
     return (
       <BasicLayout
         routes={routes}
       >
         <Switch>
-          {this.state.newRoutes.length > 0 && this.state.newRoutes.map((route, i) => <RouteWithSubRoutes key={route.path} {...route} />)}
+          {this.state.newRoutes.map((route, i) => <RouteWithSubRoutes key={route.path} {...route} />)}
           <Redirect
             to={{
               pathname: "/exception/404",
