@@ -51,7 +51,7 @@ class MainApp extends Component {
   }
   componentWillReceiveProps(nextProps) {
     // 监听路由发生改变的时候
-    if (!_.isEqual(this.props.location.pathname, nextProps.location.pathname)) {
+    if (!_.eq(this.props.location.pathname, nextProps.location.pathname)) {
       this.addTab(nextProps.location.pathname)
     }
   }
@@ -59,7 +59,7 @@ class MainApp extends Component {
     const { addTabsPage } = this.props.Gobal
     let currentRoute = {}
     this.state.newRoutes.map((route) => {
-      if (_.isEqual(route.path, path)) {
+      if (_.eq(route.path, path)) {
         currentRoute.title = route.title
         currentRoute.path = route.path
       }
