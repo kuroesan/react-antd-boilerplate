@@ -4,7 +4,19 @@ import { withRouter } from 'react-router-dom'
 import DocumentTitle from 'react-document-title'
 import { inject } from 'mobx-react'
 import { Form, Input, Icon, Button, message } from 'antd'
+import { authLogin } from '@/services/userApi'
 import styles from './index.less'
+
+import Mock from 'mockjs'
+
+Mock.mock('/api/auth/login', {
+  code: 200,
+  data: {
+    token: '123123'
+  },
+  msg: 'success'
+})
+
 
 @withRouter
 @inject('Gobal')
@@ -27,18 +39,20 @@ class Login extends React.PureComponent {
         this.setState({
           loading: true
         })
-        if (param.username === 'admin' && param.password === 'admin') {
-          this.props.Gobal.changeUserInfo({
-            name: 'admin',
-            avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
-          })
-          this.props.history.push('/')
-        } else {
-          message.info('密码错误')
-          this.setState({
-            loading: false
-          })
-        }
+        authLogin(param).then((res) => {
+          if (res.code === 200) {
+            this.props.Gobal.changeUserInfo({
+              name: 'admin',
+              avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
+            })
+            this.props.history.push('/')
+          } else {
+            message.info(res.msg)
+            this.setState({
+              loading: false
+            })
+          }
+        })
       }
     })
   }

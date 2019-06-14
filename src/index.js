@@ -7,7 +7,8 @@ import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
 import * as serviceWorker from './serviceWorker';
 import './normalize';
-import '@/common/style/basic.less'
+import '@/common/style/basic.less';
+
 
 configure({ enforceActions: 'always' })
 

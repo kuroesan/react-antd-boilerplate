@@ -1,4 +1,4 @@
-'use strict';
+
 
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
@@ -9,6 +9,9 @@ const fs = require('fs');
 const proxy = require('./proxy');
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
+const apiMocker = require('mocker-api');
+const path = require('path');
+const mocker = path.resolve(__dirname, '../mock/index.js');
 
 module.exports = function (allowedHost) {
   return {
@@ -83,6 +86,14 @@ module.exports = function (allowedHost) {
     public: allowedHost,
     proxy,
     before(app, server) {
+      apiMocker(app, mocker, {
+        proxy: proxy,
+        // {
+        //   '/api/*': 'http://localhost:3001'
+        // },
+        changeHost: true
+      });
+
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
         require(paths.proxySetup)(app);

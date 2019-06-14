@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -18,12 +18,16 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+// const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const WorkboxPlugin = require('workbox-webpack-plugin')
 const manifest = require('../dll/vendor-manifest.json');
 const defaultSettings = require('../src/config/configure.js')
 
@@ -289,7 +293,15 @@ module.exports = function (webpackEnv) {
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
-
+        {
+          test: /\.js?$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "happypack/loader?id=happyPack"
+            }
+          ]
+        },
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
         {
@@ -467,6 +479,18 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      new HappyPack({
+        // 用唯一的标识符id，来代表当前的HappyPack是用来处理一类特定的文件
+        id: 'happyPack',
+        // 如何处理.js文件，用法和Loader配置中一样
+        loaders: ['babel-loader?cacheDirectory'],
+        threadPool: happyThreadPool,
+        verbose: true,
+      }),
+      isEnvProduction && new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true
+      }),
       new webpack.DllReferencePlugin({
         manifest
       }),
