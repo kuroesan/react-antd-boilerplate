@@ -19,7 +19,9 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 // const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const chalk = require('chalk')
 const HappyPack = require('happypack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 const paths = require('./paths');
@@ -486,6 +488,9 @@ module.exports = function (webpackEnv) {
         loaders: ['babel-loader?cacheDirectory'],
         threadPool: happyThreadPool,
         verbose: true,
+      }),
+      new ProgressBarPlugin({
+        format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
       }),
       isEnvProduction && new WorkboxPlugin.GenerateSW({
         clientsClaim: true,
