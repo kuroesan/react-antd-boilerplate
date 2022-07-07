@@ -27,7 +27,7 @@
     "memoize-one": "^5.0.0",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "object-assign": "^4.1.1",
     "promise": "^8.0.2",
     "react": "^16.8.2",
